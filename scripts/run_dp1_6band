@@ -1,0 +1,13 @@
+INPUT_COL=" LSSTComCam/runs/DRP/DP1/v29_0_0/DM-50260"
+
+VERSION="dp1/gold"
+FLAVOR="dp1_6band"
+
+MODELS_COL="pretrained_models/pz/${VERSION}/${FLAVOR}/v1"
+OUTPUT_COL="u/echarles/pz_market/${VERSION}/${FLAVOR}/v1"
+
+PIPELINE="pipelines/pz_pipeline_dp1_6band_all.yaml"
+SELECTION="instrument='LSSTComCam' AND skymap='lsst_cells_v1'"
+
+com_line="pipetask run --register-dataset-types -b ${REPO} -i ${INPUT_COL},${MODELS_COL} -o ${OUTPUT_COL} -p ${PIPELINE}#all_pz -d \"${SELECTION}\""
+echo ${com_line}

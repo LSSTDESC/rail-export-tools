@@ -1,0 +1,76 @@
+description: |
+  Photo-z madness
+tasks:
+  pz_bpz:
+    class: lsst.meas.pz.estimate_pz_task_bpz.EstimatePZBPZTask
+    config:
+      pz_algo.no_prior: false
+      pz_algo.madau_flag: 'yes'
+      pz_algo.filter_list: ['comcam_u', 'comcam_g', 'comcam_r', 'comcam_i', 'comcam_z', 'comcam_y']
+      pz_algo.spectra_file: 'cosmossedswdust136.list'
+      pz_algo.zp_errors:
+        - 0.03
+        - 0.03
+        - 0.03
+        - 0.03
+        - 0.03
+        - 0.03
+      dimensions: ['skymap', 'tract']
+      connections.pzModel: 'pzModel_bpz'
+      connections.pzEnsemble: 'pz_estimate_bpz'
+  pz_dnf:
+    class: lsst.meas.pz.estimate_pz_task_dnf.EstimatePZDNFTask
+    config:
+      dimensions: ['skymap', 'tract']
+      connections.pzModel: 'pzModel_dnf'
+      connections.pzEnsemble: 'pz_estimate_dnf'
+  pz_fzboost:
+    class: lsst.meas.pz.estimate_pz_task_fzboost.EstimatePZFZBoostTask
+    config:
+      dimensions: ['skymap', 'tract']    
+      connections.pzModel: 'pzModel_fzboost'
+      connections.pzEnsemble: 'pz_estimate_fzboost'
+  pz_gpz:
+    class: lsst.meas.pz.estimate_pz_task_gpz.EstimatePZGPZTask
+    config:
+      dimensions: ['skymap', 'tract']    
+      connections.pzModel: 'pzModel_gpz'
+      connections.pzEnsemble: 'pz_estimate_gpz'
+  pz_knn:
+    class: lsst.meas.pz.estimate_pz_task_knn.EstimatePZKNNTask
+    config:
+      dimensions: ['skymap', 'tract']
+      connections.pzModel: 'pzModel_knn'
+      connections.pzEnsemble: 'pz_estimate_knn'      
+  pz_tpz:
+    class: lsst.meas.pz.estimate_pz_task_tpz.EstimatePZTPZTask
+    config:
+      dimensions: ['skymap', 'tract']    
+      connections.pzModel: 'pzModel_tpz'
+      connections.pzEnsemble: 'pz_estimate_tpz'
+  pz_lephare:
+    class: lsst.meas.pz.estimate_pz_task_lephare.EstimatePZLephareTask
+    config:
+      dimensions: ['skymap', 'tract']    
+      connections.pzModel: 'pzModel_lephare'
+      connections.pzEnsemble: 'pz_estimate_lephare'      
+  pz_cmnn:
+    class: lsst.meas.pz.estimate_pz_task_cmnn.EstimatePZCMNNTask
+    config:
+      dimensions: ['skymap', 'tract']
+      connections.pzModel: 'pzModel_cmnn'
+      connections.pzEnsemble: 'pz_estimate_cmnn'
+
+subsets:
+  all_pz:
+    subset:
+      - pz_bpz
+      - pz_dnf
+      - pz_fzboost
+      - pz_gpz
+      - pz_knn
+      - pz_tpz
+      - pz_cmnn
+      - pz_lephare
+    description: |
+      All of the photoz algorithms

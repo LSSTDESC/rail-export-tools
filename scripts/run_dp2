@@ -1,0 +1,15 @@
+
+REPO="dp2_prep"
+INPUT_COL="LSSTCam/runs/DRP/DP2/v30_0_6_rc1/DM-53881/stage3"
+
+VERSION="dp2_v0/gold"
+FLAVOR="baseline"
+
+MODELS_COL="u/echarles/pretrained_models/pz/${VERSION}/${FLAVOR}"
+OUTPUT_COL="u/echarles/pz_market/${VERSION}/${FLAVOR}"
+
+PIPELINE="pipelines/pz_pipeline_dp2_baseline_all.yaml"
+SELECTION="instrument='LSSTCam' AND skymap='lsst_cells_v2' AND tract=9813"
+
+com_line="pipetask run --register-dataset-types -b ${REPO} -i ${INPUT_COL},${MODELS_COL} -o ${OUTPUT_COL} -p ${PIPELINE}#all_pz -d \"${SELECTION}\""
+echo ${com_line}

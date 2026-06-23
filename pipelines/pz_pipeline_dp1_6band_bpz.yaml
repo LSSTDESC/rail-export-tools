@@ -1,0 +1,27 @@
+description: |
+  Photo-z madness
+tasks:
+  pz_bpz:
+    class: lsst.meas.pz.estimate_pz_task_bpz.EstimatePZBPZTask
+    config:
+      pz_algo.no_prior: false
+      pz_algo.madau_flag: 'yes'
+      pz_algo.filter_list: ['comcam_u', 'comcam_g', 'comcam_r', 'comcam_i', 'comcam_z', 'comcam_y']
+      pz_algo.spectra_file: 'cosmossedswdust136.list'
+      pz_algo.zp_errors:
+        - 0.03
+        - 0.03
+        - 0.03
+        - 0.03
+        - 0.03
+        - 0.03
+      dimensions: ['skymap', 'tract']
+      connections.pzModel: 'pzModel_bpz'
+      connections.pzEnsemble: 'pz_estimate_bpz'
+
+subsets:
+  all_pz:
+    subset:
+      - pz_bpz
+    description: |
+      BPz only
