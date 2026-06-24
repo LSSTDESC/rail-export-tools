@@ -1,11 +1,11 @@
-
+#!/usr/bin/env python
 import sys
 import glob
 from pathlib import Path
 
 from lsst.daf.butler import Butler
 
-from .butler_ingest_models import ingest_models
+from rail_export.butler_ingest_models import ingest_models
 
 
 ALGOS = [
@@ -33,7 +33,7 @@ DP2_CONFIG: dict[str, str] = dict(
     butler="dp2_prep",
     model_base_dir="/sdf/data/rubin/shared/pz/models",
     model_base_col="u/echarles/pretrained_models/pz",
-    version="dp2_v2",
+    version="dp2_v3",
     flavor="baseline",
     selection="gold",
     instrument_name="LSSTCam",

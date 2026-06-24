@@ -11,7 +11,7 @@ from lsst.daf.butler import (
 )
 
 
-dim_universe = DimensionUniverse()
+dim_universe = DimensionUniverse(version=7)
 
 pzModel_dimension_group = DimensionGroup(
     dim_universe,

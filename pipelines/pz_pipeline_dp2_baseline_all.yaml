@@ -6,52 +6,68 @@ tasks:
     config:
       connections.photoz_model: 'pzModel_bpz'
       connections.photoz_ensemble: 'pz_estimate_bpz'
+      photoz_algo.active.id_col: 'objectId'
+      photoz_algo.active.calc_summary_stats: True
   pz_dnf:
     class: lsst.meas.photoz.algorithms.estimate_photoz_task_dnf.EstimatePhotozDNFTask
     config:
       connections.photoz_model: 'pzModel_dnf'
       connections.photoz_ensemble: 'pz_estimate_dnf'
+      photoz_algo.active.id_col: 'objectId'
+      photoz_algo.active.calc_summary_stats: True
   pz_fzboost:
     class: lsst.meas.photoz.algorithms.estimate_photoz_task_fzboost.EstimatePhotozFZBoostTask
     config:
       connections.photoz_model: 'pzModel_fzboost'
       connections.photoz_ensemble: 'pz_estimate_fzboost'
+      photoz_algo.active.id_col: 'objectId'
+      photoz_algo.active.calc_summary_stats: True
   pz_gpz:
     class: lsst.meas.photoz.algorithms.estimate_photoz_task_gpz.EstimatePhotozGPZTask
     config:
       connections.photoz_model: 'pzModel_gpz'
       connections.photoz_ensemble: 'pz_estimate_gpz'
+      photoz_algo.active.id_col: 'objectId'
+      photoz_algo.active.calc_summary_stats: True
   pz_knn:
     class: lsst.meas.photoz.base.estimate_photoz_task_knn.EstimatePhotozKNNTask
     config:
       connections.photoz_model: 'pzModel_knn'
       connections.photoz_ensemble: 'pz_estimate_knn'      
+      photoz_algo.active.id_col: 'objectId'
+      photoz_algo.active.calc_summary_stats: True
   pz_tpz:
     class: lsst.meas.photoz.algorithms.estimate_photoz_task_tpz.EstimatePhotozTPZTask
     config:
       connections.photoz_model: 'pzModel_tpz'
       connections.photoz_ensemble: 'pz_estimate_tpz'
+      photoz_algo.active.id_col: 'objectId'
+      photoz_algo.active.calc_summary_stats: True
   pz_lephare:
     class: lsst.meas.photoz.algorithms.estimate_photoz_task_lephare.EstimatePhotozLephareTask
     config:
       connections.photoz_model: 'pzModel_lephare'
       connections.photoz_ensemble: 'pz_estimate_lephare'      
+      photoz_algo.active.id_col: 'objectId'
+      photoz_algo.active.calc_summary_stats: True
   pz_cmnn:
     class: lsst.meas.photoz.algorithms.estimate_photoz_task_cmnn.EstimatePhotozCMNNTask
     config:
       connections.photoz_model: 'pzModel_cmnn'
       connections.photoz_ensemble: 'pz_estimate_cmnn'
+      photoz_algo.active.id_col: 'objectId'
+      photoz_algo.active.calc_summary_stats: True
 
 subsets:
   all_pz:
     subset:
       - pz_bpz
-      - pz_dnf
-      - pz_fzboost
-      - pz_gpz
-      - pz_knn
-      - pz_tpz
+        # - pz_dnf
+        # - pz_fzboost
+        # - pz_gpz
+        # - pz_knn
+        # - pz_tpz
         # - pz_cmnn
         # - pz_lephare
     description: |
-      All of the p
+      All of the photoz estimators
