@@ -2,31 +2,31 @@ clusterAlgorithm: lsst.ctrl.bps.quantum_clustering_funcs.dimension_clustering
 cluster:
   pz_bpz:
     pipetasks: pz_bpz
-    dimensions: tract
+    dimensions: skymap
     partitionDimensions: tract
     partitionMaxSize: 50
   pz_dnf:
     pipetasks: pz_dnf
-    dimensions: tract
+    dimensions: skymap
     partitionDimensions: tract
     partitionMaxSize: 50
   pz_fzboost:
     pipetasks: pz_bpz
-    dimensions: tract
+    dimensions: skymap
     partitionDimensions: tract
     partitionMaxSize: 50
   pz_gpz:
     pipetasks: pz_fzboost
-    dimensions: tract
+    dimensions: skymap
     partitionDimensions: tract
     partitionMaxSize: 10
   pz_knn:
     pipetasks: pz_fzboost
-    dimensions: tract
+    dimensions: skymap
     partitionDimensions: tract
     partitionMaxSize: 20
   pz_tpz:
     pipetasks: pz_tpz
-    dimensions: tract
+    dimensions: skymap
     partitionDimensions: tract
     partitionMaxSize: 50
