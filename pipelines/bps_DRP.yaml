@@ -20,7 +20,7 @@ input_pz_models: "u/echarles/pretrained_models/pz/{model_version}/{flavor}"
 # ==========================================
 # Used to differentiate runs in BPS report, keep short.
 project: "photo_z"
-campaign: "{model_version}"
+campaign: "{model_version}/attempt{attempt}"
 
 # UPDATE THIS to the path to the pipeline to run. For DRP, it is recommended to
 # run in steps. Each DRP BPS submit yaml is typically a subset of tasks, with
