@@ -1,0 +1,212 @@
+# ==========================================
+# Modified from drp_pipe/bps/bps_DRP.yaml
+# ==========================================
+
+# ==========================================
+# User Variables
+# ==========================================
+# Clarify what you're working on and what build you used.
+
+weekly: "w_20##_##"
+model_version: "dp2_v3"
+attempt: "0"
+flavor: "baseline"
+collection_name: "{model_version}/{flavor}/v{attempt}"
+input_data_collection: "LSSTCam/runs/DRP/DP2/v30_0_6_rc1/DM-53881/stage3"
+input_pz_models: "u/echarles/pretrained_models/pz/{model_version}/{flavor}"
+
+# ==========================================
+# Run-Level Settings
+# ==========================================
+# Used to differentiate runs in BPS report, keep short.
+project: "photo_z"
+campaign: "{model_version}"
+
+# UPDATE THIS to the path to the pipeline to run. For DRP, it is recommended to
+# run in steps. Each DRP BPS submit yaml is typically a subset of tasks, with
+# the inCollection changing to the output of the previous step. You can specify
+# subsets/tasks by appending a hash followed by a comma separated (no spaces)
+# list of the subset/task names. Names must be in the pipelineYaml.
+# You should run an instrument-specific DrpPipe, not the generic one
+pipelineYaml: "${RAIL_EXPORT_TOOLS_DIR}/pipelines/pz_pipeline_dp2_baseline_all.yaml"
+
+#  You can also run on an existing qgraphFile instead of a pipelineYaml.
+# qgraphFile: "/path/to/existing/file.qg"
+
+includeConfigs:
+  # Note that some includeConfigs are only available for certain instruments and may
+  # be named diffferently.
+  - "${DRP_PIPE_DIR}/bps/clustering/INSTRUMENT/DRP-clustering.yaml"
+  - "${DRP_PIPE_DIR}/bps/compression/INSTRUMENT/DRP-compression.yaml"
+  - "${DRP_PIPE_DIR}/bps/resources/INSTRUMENT/DRP.yaml"
+  # If reading LSSTCam data from the S3 datastore used by the embargo rack at USDF:
+  # - "${DRP_PIPE_DIR}/bps/caching/LSSTCam/usdf/DRP-caching.yaml"
+
+payload:
+  # Used in bps report and default output collection.
+  payloadName: "pz_market/{collection_name}"
+
+  # These two are included for visibility, edits discouraged.
+  # output: "u/{operator}/{payloadName}"
+  # outputRun: "{output}/{timestamp}"
+
+  # Butler aliases and paths to butler yamls can be used in BPS submit yamls.
+  butlerConfig: "dp2_prep"
+
+  # If running multiple steps, change inCollection. Can contain multiple comma
+  # separated collections. Cannot contain spaces.
+  inCollection: "{input_data_collection}/{input_pz_models}"
+
+  # The ">-" automatically concatenates each line with a space separating them.
+  dataQuery: >-
+      instrument='LSSTCam'
+      AND skymap='lsst_cells_v2'
+
+  # Extra options for Qgraph generation. Examples shown.
+  # extraQgraphOptions: >-
+  #   --dataset-query-constraint raw
+  #   --data-id-table exposure_list.ecsv
+  #   --no-raise-on-partial-outputs
+  #   -c parameters:parameter_name=parameter_value
+
+# Edit only if you want the submit directory in a different location.
+submitPath: "${PWD}/submit/{outputRun}"
+
+# ==========================================
+# Task-Level Settings
+# ==========================================
+# Most modifications are already in the resources config above,
+# but this allows you to modify resources at the task level.
+# pipetask:
+  #OPT myTask:
+  #OPT   requestCpus: 1
+  #OPT   requestMemory: 2048
+  #OPT   numberOfRetries: 5
+  #OPT   memoryMultiplier: 2
+finalJob:
+  finalPreCmdOpts: "--long-log --log-level=VERBOSE"
+  requestCpus: 16
+  requestMemory: 32768
+      # You can also run bash commands. Note that command1 is taken!
+      # command2: >-
+      #   echo "hello world"
+
+# ==========================================
+# Environment Settings
+# ==========================================
+environment:
+  LSST_RESOURCES_EXECUTOR: process  # <- also this speeds up finalJob!
+  LSST_S3_USE_THREADS: false
+
+# ==========================================
+# Service and Site-Level Settings
+# ==========================================
+# If wmsServiceClass is changed, comment out HTCondor-Specific Settings.
+wmsServiceClass: lsst.ctrl.bps.htcondor.HTCondorService
+
+# Declare what computeSite you will be using.
+computeSite: "s3df"
+
+# Any extra site-specific settings needed for WMS. BPS will pull settings from
+# the subgroup that matches computeSite.
+site:
+  s3df:
+    setupLSSTEnv: >
+      source /cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{weekly}/loadLSST.bash;
+      setup lsst_distrib -t {weekly};
+
+
+# ==========================================
+# Cluster & Caching Settings
+# ==========================================
+# If you are not using clustering and/or caching from includeConfigs.
+
+# Clustering is necessary to avoid overly short jobs, like ISR and CalibrateImage, that
+# make scheduling jobs difficult. Clusters can be made from dataset types that share the
+# same dimensions, or equivalent dimensions (such as visit and exposure).
+# clusterAlgorithm: lsst.ctrl.bps.quantum_clustering_funcs.dimension_clustering
+# cluster:
+#   visit_detector:
+#     pipetasks: isr,calibrateImage,analyzeAmpOffsetMetadata,analyzeCalibrateImageMetadata,transformPreSourceTable
+#     dimensions: detector
+#     equalDimensions: visit:exposure
+#     partitionDimensions: exposure
+#     partitionMaxClusters: 10000
+
+# Caching can improve performance and settings may need tuned depending on site and data.
+# Some sites, such as IN2P3, require a specific DAF_BUTLER_CONFIG_PATH and
+# DAF_BUTLER_CACHE_DIRECTORY. DAF_BUTLER_CACHE_EXPIRATION_MODE is a caching config
+# that can improve performance. This one is tuned for IN2P3.
+# environment:
+  # Default caching config
+  # Each pipetask creates its own local cache folder,
+  # $TMPDIR/butler-cache-dir-*
+  # DAF_BUTLER_CONFIG_PATH: /path/to/your/butler_config:${DAF_BUTLER_CONFIG_PATH}
+  # DAF_BUTLER_CACHE_EXPIRATION_MODE: datasets=1_000
+  # DAF_BUTLER_CACHE_DIRECTORY: /tmp/butler_cache
+
+# ==========================================
+# HTCondor-specific Settings (Default)
+# ==========================================
+# If running allocateNodes.py script, we recommend replacing {timestamp} with a
+# meaningful name and adding ``--nodeset {nodeset}`` to the allocateNodes.py
+# script. This shared nodeset variable pairs allocateNodes.py (which is also
+# used by provisionoingResources) with this specific BPS run. The nodeset name
+# is not case-sensitive, but it cannot contain spaces.
+nodeset: "{timestamp}"
+
+# provisionResources replaces the need for manual allocateNodes.py.
+# By default, disable automatic provisioning of resources.
+provisionResources: false
+
+# Define how to provision resources automatically.
+provisioning:
+  # Number of glideins to submit.
+  provisioningNodeCount: 10
+
+  # Glide-in inactivity shutdown time in seconds.
+  provisioningMaxIdleTime: 900
+
+  # maximum wall clock time; e.g., 3600, 10:00:00, 6-00:00:00, etc.
+  provisioningMaxWallTime: 1-00:00:00
+
+  # How many seconds between resource checks and reallocations.
+  provisioningCheckInterval: 600
+
+  # Update based on Site-Level Settings.
+  provisioningPlatform: "s3df"
+
+  # Can also use "torino" and "roma".
+  provisioningQueue: "milano"
+
+  # Can also use "rubin:commissioning" and "rubin:production" if user account
+  # has permissions.
+  provisioningAccountingUser: "rubin:developers"
+
+
+# ==========================================
+# Extra Configurable Settings (Default)
+# ==========================================
+# Options that go between executable and command (e.g., between pipetask and run)
+defaultPreCmdOpts: "--long-log --log-level=VERBOSE"
+
+# for createQuantumGraph
+qgraphPreCmdOpts: "{defaultPreCmdOpts}"
+# for pipetaskInit
+
+initPreCmdOpts: "{defaultPreCmdOpts}"
+
+# for running Quanta
+runPreCmdOpts: "{defaultPreCmdOpts}"
+
+# for updateQuantumGraph
+updateQgraphPreCmdOpts: "{defaultPreCmdOpts}"
+
+# ==========================================
+# For Visibility, Edits Discouraged
+# ==========================================
+# Templates for bps filenames.
+# The default uniqProcName is the output run translated to snake case.
+# qgraphFileTemplate: "{uniqProcName}.qg"
+# subDirTemplate: "{label}/{tract}/{patch}/{band}/{subfilter}/{physical_filter}/{visit}/{exposure}"
+# templateDataId: "{tract}_{patch}_{band}_{visit}_{exposure}_{detector}"
