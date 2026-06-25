@@ -25,7 +25,8 @@ class TestIngestModels:
     def test_calls_ingest_for_each_file(self, butler):
         _register_run(butler, "test/models")
         models = {
-            "knn": ["/fake/model_knn_a.pkl", "/fake/model_knn_b.pkl"],
+            "knn": ["/fake/model_knn.pkl"],
+            "bpz": ["/fake/model_bpz.pkl"],
         }
 
         ingest_models(butler, "test/models", models, instrument_name="LSSTCam")

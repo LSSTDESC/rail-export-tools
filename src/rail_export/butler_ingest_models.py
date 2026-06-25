@@ -11,20 +11,18 @@ from lsst.daf.butler import (
 )
 
 
-dim_universe = DimensionUniverse(version=7)
-
-pzModel_dimension_group = DimensionGroup(
-    dim_universe,
-    ["instrument"],
-)
-
-
 def ingest_models(
     butler: Butler,
     model_collection: str,
     models: dict[str, list[str | Path]],
     instrument_name: str = "LSSTCam",
 ) -> int:
+
+    dim_universe = butler.dimensions
+    pzModel_dimension_group = DimensionGroup(
+        dim_universe,
+        ["instrument"],
+    )
 
     for algo_, model_files in models.items():
         model_type = f"pzModel_{algo_}"
