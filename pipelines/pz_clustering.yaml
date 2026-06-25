@@ -1,32 +1,32 @@
 clusterAlgorithm: lsst.ctrl.bps.quantum_clustering_funcs.dimension_clustering
 cluster:
-   pz_bpz:
-     pipetasks: pz_bpz
-     dimensions: tract
-     partitionDimensions: tract
-     partitionMaxClusters: 50
-   pz_dnf:
-     pipetasks: pz_dnf
-     dimensions: tract
-     partitionDimensions: tract     
-     partitionMaxClusters: 50
-   pz_fzboost
-     pipetasks: pz_bpz
-     dimensions: tract
-     partitionDimensions: tract     
-     partitionMaxClusters: 50
-   pz_gpz:
-     pipetasks: pz_fzboost
-     dimensions: tract
-     partitionDimensions: tract     
-     partitionMaxClusters: 10
-   pz_knn:
-     pipetasks: pz_fzboost
-     dimensions: tract
-     partitionDimensions: tract     
-     partitionMaxClusters: 20
-   pz_tpz:
-     pipetasks: pz_tpz
-     dimensions: tract
-     partitionDimensions: tract     
-     partitionMaxClusters: 50
+  pz_bpz:
+    pipetasks: pz_bpz
+    dimensions: tract
+    partitionDimensions: tract
+    partitionMaxClusters: 50
+  pz_dnf:
+    pipetasks: pz_dnf
+    dimensions: tract
+    partitionDimensions: tract
+    partitionMaxClusters: 50
+  pz_fzboost:
+    pipetasks: pz_bpz
+    dimensions: tract
+    partitionDimensions: tract
+    partitionMaxClusters: 50
+  pz_gpz:
+    pipetasks: pz_fzboost
+    dimensions: tract
+    partitionDimensions: tract
+    partitionMaxClusters: 10
+  pz_knn:
+    pipetasks: pz_fzboost
+    dimensions: tract
+    partitionDimensions: tract
+    partitionMaxClusters: 20
+  pz_tpz:
+    pipetasks: pz_tpz
+    dimensions: tract
+    partitionDimensions: tract
+    partitionMaxClusters: 50

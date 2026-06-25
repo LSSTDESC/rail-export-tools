@@ -25,7 +25,7 @@ tasks:
     class: lsst.meas.photoz.base.estimate_photoz_task_knn.EstimatePhotozKNNTask
     config:
       connections.photoz_model: 'pzModel_knn'
-      connections.photoz_ensemble: 'pz_estimate_knn'      
+      connections.photoz_ensemble: 'pz_estimate_knn'
   pz_tpz:
     class: lsst.meas.photoz.algorithms.estimate_photoz_task_tpz.EstimatePhotozTPZTask
     config:
@@ -35,7 +35,7 @@ tasks:
     class: lsst.meas.photoz.algorithms.estimate_photoz_task_lephare.EstimatePhotozLephareTask
     config:
       connections.photoz_model: 'pzModel_lephare'
-      connections.photoz_ensemble: 'pz_estimate_lephare'      
+      connections.photoz_ensemble: 'pz_estimate_lephare'
   pz_cmnn:
     class: lsst.meas.photoz.algorithms.estimate_photoz_task_cmnn.EstimatePhotozCMNNTask
     config:
@@ -51,7 +51,7 @@ subsets:
       - pz_gpz
       - pz_knn
       - pz_tpz
-        # - pz_cmnn
-        # - pz_lephare
+      # - pz_cmnn
+      # - pz_lephare
     description: |
-      All of the p
+      All of the photo z algos

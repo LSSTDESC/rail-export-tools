@@ -27,13 +27,13 @@ tasks:
   pz_fzboost:
     class: lsst.meas.pz.estimate_pz_task_fzboost.EstimatePZFZBoostTask
     config:
-      dimensions: ['skymap', 'tract']    
+      dimensions: ['skymap', 'tract']
       connections.pzModel: 'pzModel_fzboost'
       connections.pzEnsemble: 'pz_estimate_fzboost'
   pz_gpz:
     class: lsst.meas.pz.estimate_pz_task_gpz.EstimatePZGPZTask
     config:
-      dimensions: ['skymap', 'tract']    
+      dimensions: ['skymap', 'tract']
       connections.pzModel: 'pzModel_gpz'
       connections.pzEnsemble: 'pz_estimate_gpz'
   pz_knn:
@@ -41,19 +41,19 @@ tasks:
     config:
       dimensions: ['skymap', 'tract']
       connections.pzModel: 'pzModel_knn'
-      connections.pzEnsemble: 'pz_estimate_knn'      
+      connections.pzEnsemble: 'pz_estimate_knn'
   pz_tpz:
     class: lsst.meas.pz.estimate_pz_task_tpz.EstimatePZTPZTask
     config:
-      dimensions: ['skymap', 'tract']    
+      dimensions: ['skymap', 'tract']
       connections.pzModel: 'pzModel_tpz'
       connections.pzEnsemble: 'pz_estimate_tpz'
   pz_lephare:
     class: lsst.meas.pz.estimate_pz_task_lephare.EstimatePZLephareTask
     config:
-      dimensions: ['skymap', 'tract']    
+      dimensions: ['skymap', 'tract']
       connections.pzModel: 'pzModel_lephare'
-      connections.pzEnsemble: 'pz_estimate_lephare'      
+      connections.pzEnsemble: 'pz_estimate_lephare'
   pz_cmnn:
     class: lsst.meas.pz.estimate_pz_task_cmnn.EstimatePZCMNNTask
     config:
