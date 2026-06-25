@@ -8,19 +8,20 @@
 # Clarify what you're working on and what build you used.
 
 weekly: "w_20##_##"
-model_version: "dp2_v3"
-attempt: "0"
-flavor: "baseline"
-collection_name: "{model_version}/{flavor}/v{attempt}"
+pz_model_version: "dp2_v3"
+pz_attempt: "0"
+pz_selection: "gold"
+pz_flavor: "dp2_6band"
+collection_name: "{pz_model_version}/{pz_flavor}/v{pz_attempt}"
 input_data_collection: "LSSTCam/runs/DRP/DP2/v30_0_6_rc1/DM-53881/stage3"
-input_pz_models: "u/echarles/pretrained_models/pz/{model_version}/{flavor}"
+pz_input_models: "u/echarles/pretrained_models/pz/{pz_model_version}/{pz_selection}/{pz_flavor}"
 
 # ==========================================
 # Run-Level Settings
 # ==========================================
 # Used to differentiate runs in BPS report, keep short.
 project: "photo_z"
-campaign: "{model_version}/attempt{attempt}"
+campaign: "{pz_model_version}/attempt{pz_attempt}"
 
 # UPDATE THIS to the path to the pipeline to run. For DRP, it is recommended to
 # run in steps. Each DRP BPS submit yaml is typically a subset of tasks, with
@@ -28,17 +29,17 @@ campaign: "{model_version}/attempt{attempt}"
 # subsets/tasks by appending a hash followed by a comma separated (no spaces)
 # list of the subset/task names. Names must be in the pipelineYaml.
 # You should run an instrument-specific DrpPipe, not the generic one
-pipelineYaml: "${RAIL_EXPORT_TOOLS_DIR}/pipelines/pz_pipeline_dp2_baseline_all.yaml"
+pipelineYaml: "${RAIL_EXPORT_TOOLS_DIR}/pipelines/pz_pipeline_dp2_baseline_all.yaml#all_pz"
 
 #  You can also run on an existing qgraphFile instead of a pipelineYaml.
 # qgraphFile: "/path/to/existing/file.qg"
 
-includeConfigs:
+# includeConfigs:
   # Note that some includeConfigs are only available for certain instruments and may
   # be named diffferently.
-  - "${DRP_PIPE_DIR}/bps/clustering/INSTRUMENT/DRP-clustering.yaml"
-  - "${DRP_PIPE_DIR}/bps/compression/INSTRUMENT/DRP-compression.yaml"
-  - "${DRP_PIPE_DIR}/bps/resources/INSTRUMENT/DRP.yaml"
+  # - "${DRP_PIPE_DIR}/bps/clustering/LSSTCam/DRP-clustering.yaml"
+  # - "${DRP_PIPE_DIR}/bps/compression/LSSTCam/DRP-compression.yaml"
+  # - "${DRP_PIPE_DIR}/bps/resources/LSSTCam/DRP.yaml"
   # If reading LSSTCam data from the S3 datastore used by the embargo rack at USDF:
   # - "${DRP_PIPE_DIR}/bps/caching/LSSTCam/usdf/DRP-caching.yaml"
 
@@ -55,7 +56,7 @@ payload:
 
   # If running multiple steps, change inCollection. Can contain multiple comma
   # separated collections. Cannot contain spaces.
-  inCollection: "{input_data_collection}/{input_pz_models}"
+  inCollection: "{input_data_collection},{pz_input_models}"
 
   # The ">-" automatically concatenates each line with a space separating them.
   dataQuery: >-
@@ -128,10 +129,10 @@ site:
 # make scheduling jobs difficult. Clusters can be made from dataset types that share the
 # same dimensions, or equivalent dimensions (such as visit and exposure).
 # clusterAlgorithm: lsst.ctrl.bps.quantum_clustering_funcs.dimension_clustering
-# cluster:
-#   visit_detector:
-#     pipetasks: isr,calibrateImage,analyzeAmpOffsetMetadata,analyzeCalibrateImageMetadata,transformPreSourceTable
-#     dimensions: detector
+cluster:
+  visit_detector:
+    pipetasks: isr,calibrateImage,analyzeAmpOffsetMetadata,analyzeCalibrateImageMetadata,transformPreSourceTable
+    dimensions: detector
 #     equalDimensions: visit:exposure
 #     partitionDimensions: exposure
 #     partitionMaxClusters: 10000

@@ -61,13 +61,13 @@ tasks:
 subsets:
   all_pz:
     subset:
-      - pz_bpz
-        # - pz_dnf
-        # - pz_fzboost
-        # - pz_gpz
-        # - pz_knn
-        # - pz_tpz
-        # - pz_cmnn
-        # - pz_lephare
+      #- pz_bpz
+      # - pz_dnf
+      # - pz_fzboost
+      - pz_gpz
+      # - pz_knn
+      # - pz_tpz
+      # - pz_cmnn
+      # - pz_lephare
     description: |
       All of the photoz estimators
