@@ -16,7 +16,9 @@ classifiers = [
 ]
 dynamic = ["version"]
 
-dependencies = []
+dependencies = [
+    "lsst-daf-butler",
+]
 
 # On a mac, install optional dependencies with `pip install '.[dev]'` (include the single quotes)
 [project.optional-dependencies]
@@ -25,6 +27,10 @@ dev = [
     "pytest-cov", # Used to report total code coverage
     "pre-commit", # Used to run checks before finalizing a git commit
     "pylint", # Used for static linting of files
+    "mypy",
+    "ruff",
+    "black",
+    "yamllint",
 ]
 
 [build-system]
