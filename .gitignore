@@ -38,6 +38,9 @@ _version.py
 pip-log.txt
 pip-delete-this-directory.txt
 
+# bps stuff
+submit/
+
 # Unit test / coverage reports
 htmlcov/
 .tox/
