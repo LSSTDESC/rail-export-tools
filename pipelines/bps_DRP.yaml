@@ -63,7 +63,7 @@ payload:
       AND skymap='lsst_cells_v2'
 
   extraQgraphOptions: >-
-      --data-id-table="${RAIL_EXPORT_TOOLS_DIR}/pipelines/tracts_maglim_gt22_ugrizy.txt"
+      --data-id-table="${RAIL_EXPORT_TOOLS_DIR}/pipelines/tracts_maglim_gt22_ugrizy.csv"
 
   # Extra options for Qgraph generation. Examples shown.
   # extraQgraphOptions: >-
