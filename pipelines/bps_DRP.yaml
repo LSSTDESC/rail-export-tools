@@ -62,6 +62,9 @@ payload:
       instrument='LSSTCam'
       AND skymap='lsst_cells_v2'
 
+  extraQgraphOptions: >-
+      --data-id-table="${RAIL_EXPORT_TOOLS_DIR}/pipelines/tracts_maglim_gt22_ugrizy.txt"
+
   # Extra options for Qgraph generation. Examples shown.
   # extraQgraphOptions: >-
   #   --dataset-query-constraint raw
@@ -111,9 +114,9 @@ computeSite: "s3df"
 # the subgroup that matches computeSite.
 site:
   s3df:
-    setupLSSTEnv: >
-      source /cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{weekly}/loadLSST.bash;
-      setup lsst_distrib -t {weekly};
+    # setupLSSTEnv: >
+    #  source /cvmfs/sw.lsst.eu/almalinux-x86_64/lsst_distrib/{weekly}/loadLSST.bash;
+    #  setup lsst_distrib -t {weekly};
 
 
 # ==========================================
