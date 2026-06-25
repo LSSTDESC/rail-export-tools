@@ -156,11 +156,11 @@ site:
 # script. This shared nodeset variable pairs allocateNodes.py (which is also
 # used by provisionoingResources) with this specific BPS run. The nodeset name
 # is not case-sensitive, but it cannot contain spaces.
-nodeset: "{timestamp}"
+nodeset: "{project}_{campaign}"
 
 # provisionResources replaces the need for manual allocateNodes.py.
 # By default, disable automatic provisioning of resources.
-provisionResources: false
+provisionResources: true
 
 # Define how to provision resources automatically.
 provisioning:
