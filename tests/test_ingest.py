@@ -1,5 +1,4 @@
 from lsst.daf.butler import CollectionType
-from lsst.daf.butler.tests import makeTestCollection
 
 from rail_export.butler_ingest_models import ingest_models
 from rail_export.ingest import ingest

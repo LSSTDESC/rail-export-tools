@@ -13,7 +13,6 @@ from lsst.daf.butler import (
     DatasetRef,
     DatasetType,
     DimensionGroup,
-    DimensionUniverse,
     FileDataset,
 )
 

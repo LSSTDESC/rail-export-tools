@@ -17,7 +17,8 @@ def butler(tmp_path):
         dataIds={"instrument": ["LSSTCam", "LSSTComCam"]},
     )
     DatastoreMock.apply(b)
-    return b
+    yield b
+    b.close()
 
 
 @pytest.fixture

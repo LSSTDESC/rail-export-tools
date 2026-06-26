@@ -60,7 +60,7 @@ ALL_CONFIGS: dict[str, dict[str, str]] = dict(
 )
 
 
-def ingest(
+def ingest(  # pylint: disable=too-many-arguments,too-many-positional-arguments
     butler: Butler,
     algos: list[str],
     model_base_dir: str | Path,
@@ -108,7 +108,7 @@ def ingest(
     # Glob for files matching each algorithm name in the model directory.
     models: dict[str, list[str | Path]] = {}
     for algo in algos:
-        models[algo] = glob.glob(f"{model_dir}/*{algo}*")
+        models[algo] = list(glob.glob(f"{model_dir}/*{algo}*"))
 
     return ingest_models(butler, model_col, models, instrument_name)
 
